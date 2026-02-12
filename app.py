@@ -1,18 +1,10 @@
-# Patch for Python 3.14 compatibility
-import pkgutil
-if not hasattr(pkgutil, "get_loader"):
-    import importlib.util
-    def get_loader(name):
-        spec = importlib.util.find_spec(name)
-        return spec.loader if spec else None
-    pkgutil.get_loader = get_loader
-
 from flask import Flask, request, jsonify
 import json
 from dijkstra import dijkstra
 
 app = Flask(__name__)
 
+# Load graph
 with open("graph_adjacency_list.json", "r") as f:
     graph = json.load(f)
 
